@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class LoadingSystem : GameSystem
 {
-    [SerializeField] private EGameState nextState;
+    public EGameState nextState;
     private void Start()
     {
         StartCoroutine(ChangeState());
     }
     IEnumerator ChangeState()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0f);
         StateController.Instance.ChangeState(nextState);
     }
 }
