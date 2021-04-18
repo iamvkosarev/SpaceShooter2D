@@ -19,6 +19,7 @@ public class RespawnEnemiesSystem : GameSystem
 {
     public EnemieRespawnData[] enemieRespawnDatas;
     public Vector2 edgeOfRespawn;
+    private List<EnemieComponent> enemies;
     private bool[] wasEnemieStartedSpawning;
     private float[] timesSinceWaitingEnemie;
     private float[] currentSpawnDelays;
@@ -30,6 +31,7 @@ public class RespawnEnemiesSystem : GameSystem
         wasEnemieStartedSpawning = new bool[numOfEnemiesToRespawn];
         timesSinceWaitingEnemie = new float[numOfEnemiesToRespawn];
         currentSpawnDelays = new float[numOfEnemiesToRespawn];
+        enemies = StateController.Instance.GetSystem<EnemiesSpawnSystem>().enemies;
         for (int i = 0; i < numOfEnemiesToRespawn; i++)
         {
             SetDelay(i);
@@ -53,22 +55,47 @@ public class RespawnEnemiesSystem : GameSystem
 
     private void Update()
     {
+        Spawning();
+        KillInSpawnZone();
+    }
+
+    private void KillInSpawnZone()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (!enemies[i].gameObject.active) { continue; }
+
+            var enemiesPos = enemies[i].transform.position;
+            if (enemiesPos.x > edgeOfRespawn.x / 2f  ||
+                enemiesPos.x < -edgeOfRespawn.x / 2f ||
+                enemiesPos.y > edgeOfRespawn.y / 2f ||
+                enemiesPos.y < -edgeOfRespawn.y / 2f    )
+            {
+                StateController.Instance.GetSystem<EnemiesSpawnSystem>().SetEneimeBack(enemies[i].enemieName, enemies[i].gameObject);
+            }
+
+        }
+    }
+
+    private void Spawning()
+    {
         for (int i = 0; i < numOfEnemiesToRespawn; i++)
         {
             if (!wasEnemieStartedSpawning[i]) { continue; }
 
-            if(timesSinceWaitingEnemie[i] < currentSpawnDelays[i])
+            if (timesSinceWaitingEnemie[i] < currentSpawnDelays[i])
             {
                 timesSinceWaitingEnemie[i] += Time.deltaTime;
             }
             else
             {
-                GameObject newEnemieGO = StateController.Instance.GetSystem<EnemiesSpawnerSystem>().GetEnemie(enemieRespawnDatas[i].enemieName);
-                if(newEnemieGO != null)
+                GameObject newEnemieGO = StateController.Instance.GetSystem<EnemiesSpawnSystem>().GetEnemie(enemieRespawnDatas[i].enemieName);
+                if (newEnemieGO != null)
                 {
                     timesSinceWaitingEnemie[i] = 0f;
                     SetDelay(i);
                     var enemie = newEnemieGO.GetComponent<EnemieComponent>();
+                    enemie.speed = UnityEngine.Random.Range(enemieRespawnDatas[i].minSpeed, enemieRespawnDatas[i].maxSpeed);
                     SetEnemiesProperties(enemie);
                 }
             }
@@ -78,33 +105,49 @@ public class RespawnEnemiesSystem : GameSystem
     private void SetEnemiesProperties(EnemieComponent enemieComponent)
     {
         bool spawnOnHorizontal = UnityEngine.Random.Range(0f, 1f) < 0.5f;
-        bool spawnOnNegativeAxis = UnityEngine.Random.Range(0f, 1f) < 0.5f;
-        SetPostion(enemieComponent, spawnOnHorizontal, spawnOnNegativeAxis);
-        SetVelocity(enemieComponent, spawnOnHorizontal, spawnOnNegativeAxis);
+        bool spawnOnNegativeXAxis = UnityEngine.Random.Range(0f, 1f) < 0.5f;
+        bool spawnOnNegativeYAxis = UnityEngine.Random.Range(0f, 1f) < 0.5f;
+        SetPostion(enemieComponent, spawnOnHorizontal, spawnOnNegativeXAxis, spawnOnNegativeYAxis);
+        SetVelocity(enemieComponent, spawnOnHorizontal, spawnOnNegativeXAxis, spawnOnNegativeYAxis);
     }
 
-    private void SetVelocity(EnemieComponent enemieComponent, bool spawnOnHorizontal, bool spawnOnNegativeAxis)
+    private void SetVelocity(EnemieComponent enemieComponent, bool spawnOnHorizontal, bool spawnOnNegativeXAxis, bool spawnOnNegativeYAxis)
     {
-        //throw new NotImplementedException();
+
+        Vector3 diagonalPos = new Vector3(-enemieComponent.transform.position.x, -enemieComponent.transform.position.y);
+        var diagonal = diagonalPos - enemieComponent.transform.position;
+        var perpendicularToDiagonal = Vector2.Perpendicular(diagonal).normalized* UnityEngine.Random.Range(1f, 4f);
+        var velocity = (diagonal + new Vector3(perpendicularToDiagonal.x, perpendicularToDiagonal.y)* (UnityEngine.Random.Range(0f, 1f) < 0.5f ? -1 : 1)).normalized * enemieComponent.speed;
+        enemieComponent.velocity = velocity;
+        float rot_z = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+        enemieComponent.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
     }
 
-    private void SetPostion(EnemieComponent enemieComponent, bool spawnOnHorizontal, bool spawnOnNegativeAxis)
+    private void SetPostion(EnemieComponent enemieComponent, bool spawnOnHorizontal, bool spawnOnNegativeXAxis, bool spawnOnNegativeYAxis)
     {
         float x, y;
         if (spawnOnHorizontal)
         {
-            x = UnityEngine.Random.Range(-edgeOfRespawn.x / 2f, edgeOfRespawn.x / 2f);
+            x = UnityEngine.Random.Range(0f, edgeOfRespawn.x / 2f);
             y = edgeOfRespawn.y / 2f;
-            if (spawnOnNegativeAxis)
+            if (spawnOnNegativeYAxis)
             {
                 y *= -1;
+            }
+            if (spawnOnNegativeXAxis)
+            {
+                x *= -1;
             }
         }
         else
         {
             x = edgeOfRespawn.x / 2f;
-            y = UnityEngine.Random.Range(-edgeOfRespawn.y / 2f, edgeOfRespawn.y / 2f);
-            if (spawnOnNegativeAxis)
+            y = UnityEngine.Random.Range(0f, edgeOfRespawn.y / 2f);
+            if (spawnOnNegativeXAxis)
+            {
+                x *= -1;
+            }
+            if (spawnOnNegativeXAxis)
             {
                 x *= -1;
             }

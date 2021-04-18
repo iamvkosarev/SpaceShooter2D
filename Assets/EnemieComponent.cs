@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class EnemieComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector2 velocity { get; set; }
+    public float speed { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public EEnemieName enemieName { set; get; }
 }

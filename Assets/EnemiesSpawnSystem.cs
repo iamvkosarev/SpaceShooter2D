@@ -16,10 +16,11 @@ public class EnemieLoadingData
     public GameObject prefab;
     public int maxNumOnScreen;
 }
-public class EnemiesSpawnerSystem : GameSystem
+public class EnemiesSpawnSystem : GameSystem
 {
     public EnemieLoadingData[] enemieSettings;
     public bool createEnemieParent;
+    public List<EnemieComponent> enemies;
     private Dictionary<EEnemieName, Queue<GameObject>> enemiesDictionary;
     private Transform enemieParent;
 
@@ -33,6 +34,7 @@ public class EnemiesSpawnerSystem : GameSystem
             enemieParent = enemieParentGO.transform;
         }
         var numOfEnemieSettings = enemieSettings.Length;
+        enemies = new List<EnemieComponent>();
         enemiesDictionary = new Dictionary<EEnemieName, Queue<GameObject>>();
         for (int i = 0; i < numOfEnemieSettings; i++)
         {
@@ -40,7 +42,10 @@ public class EnemiesSpawnerSystem : GameSystem
             for (int j = 0; j < enemieSettings[i].maxNumOnScreen; j++)
             {
                 GameObject newEnemieGO = Instantiate(enemieSettings[i].prefab) as GameObject;
+                EnemieComponent enemie = newEnemieGO.GetComponent<EnemieComponent>();
+                enemies.Add(enemie);
                 enemiesQueues.Enqueue(newEnemieGO);
+                enemie.enemieName = enemieSettings[i].enemieName;
                 newEnemieGO.SetActive(false);
                 if (createEnemieParent)
                 {
@@ -69,10 +74,15 @@ public class EnemiesSpawnerSystem : GameSystem
 
     public void SetEneimeBack(EEnemieName enemieName, GameObject enemie)
     {
+        enemie.SetActive(false);
         if (enemiesDictionary.ContainsKey(enemieName))
         {
             enemiesDictionary[enemieName].Enqueue(enemie);
         }
-        Debug.LogError("There is no enemie with this name");
+        else
+        {
+            Debug.LogError("There is no enemie with this name");
+
+        }
     }
 }
