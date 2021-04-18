@@ -5,7 +5,9 @@ using UnityEngine;
 
 public enum EEnemieName
 {
-    Spaceship_1
+    Spaceship_1,
+    Meteor_1,
+    Meteor_2,
 
 }
 

@@ -123,105 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &48185000 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2606854358343965188, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-  m_PrefabInstance: {fileID: 2606854358849595344}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &409259182
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 409259183}
-  - component: {fileID: 409259184}
-  m_Layer: 0
-  m_Name: Enemie Movement System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &409259183
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 409259182}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1776756739}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &409259184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 409259182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4050421111e1df74f86bf093e695558d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &412009799
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 412009800}
-  - component: {fileID: 412009801}
-  m_Layer: 0
-  m_Name: Respawn Enemies System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &412009800
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412009799}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1776756739}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &412009801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412009799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d1b3ecf7f212ef41bd44ec54e5783f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemieRespawnDatas:
-  - enemieName: 0
-    minSpeed: 4
-    maxSpeed: 6
-    timeBeforeStartSpawning: 2
-    spawnMinDelay: 1
-    spawnMaxDelay: 3
-  edgeOfRespawn: {x: 20.02, y: 12.26}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +206,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1763156572
+--- !u!1 &569337980
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,28 +214,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1763156573}
+  - component: {fileID: 569337981}
+  - component: {fileID: 569337982}
   m_Layer: 0
-  m_Name: Player Spawn System
+  m_Name: Player Movement System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1763156573
+--- !u!4 &569337981
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763156572}
+  m_GameObject: {fileID: 569337980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 48185000}
-  m_RootOrder: 2
+  m_Father: {fileID: 1776756739}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &569337982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569337980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35677b51a6fb7b24189bc7c4c5e642f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movingZone: {x: 15.19, y: 8.1}
+  maxSpeed: 15
+  inputAcceleration: 0
+  velocityDrag: 1
 --- !u!4 &1776756739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2606854357706298103, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
@@ -347,46 +265,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1585365898, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: m_Name
-      value: Enemies Spawn System
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: createEnemieParent
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 6609982275138820878, guid: 5c9f4984f3ec9ef4c9d93db71fe6cff9, type: 3}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].maxSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].minSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].spawnMaxDelay
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].spawnMinDelay
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: enemieSettings.Array.data[0].maxNumOnScreen
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2606854357869919711, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2606854358571394593, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
       propertyPath: m_Name
       value: State Controller

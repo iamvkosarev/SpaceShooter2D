@@ -8,6 +8,7 @@ using UnityEngine;
 public class EnemieRespawnData
 {
     public EEnemieName enemieName;
+    public int health = 1;
     public float minSpeed;
     public float maxSpeed;
     public float timeBeforeStartSpawning;
@@ -95,6 +96,7 @@ public class RespawnEnemiesSystem : GameSystem
                     timesSinceWaitingEnemie[i] = 0f;
                     SetDelay(i);
                     var enemie = newEnemieGO.GetComponent<EnemieComponent>();
+                    enemie.health = enemieRespawnDatas[i].health;
                     enemie.speed = UnityEngine.Random.Range(enemieRespawnDatas[i].minSpeed, enemieRespawnDatas[i].maxSpeed);
                     SetEnemiesProperties(enemie);
                 }
