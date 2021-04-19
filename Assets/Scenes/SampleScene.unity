@@ -217,6 +217,10 @@ PrefabInstance:
       propertyPath: timeWhileDontTouchAnything
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 855675468, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
+      propertyPath: m_Name
+      value: Bullets Spawn System
+      objectReference: {fileID: 0}
     - target: {fileID: 1585365900, guid: 9bc3639c0eb92f44c9d8bebf986a0d8b, type: 3}
       propertyPath: enemieData.Array.data[0].damage
       value: 1
