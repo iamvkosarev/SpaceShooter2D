@@ -20,7 +20,6 @@ public class PlayerMovementSystem : GameSystem
 
     void Update()
     {
-        Debug.Log(Input.acceleration);
         LookAtMouse();
         ChangeSpeed();
     }
