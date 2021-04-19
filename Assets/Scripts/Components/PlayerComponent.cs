@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerComponent : MonoBehaviour
+public class PlayerComponent : DamageDealer
 {
     // Start is called before the first frame update
     void Start()

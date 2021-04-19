@@ -18,6 +18,7 @@ public class EnemieLoadingData
     public GameObject prefab;
     public int health;
     public int maxNumOnScreen;
+    public int damage;
 }
 public class EnemiesSpawnSystem : GameSystem
 {
@@ -50,6 +51,7 @@ public class EnemiesSpawnSystem : GameSystem
                 enemiesQueues.Enqueue(newEnemieGO);
                 enemie.enemieName = enemieData[i].enemiesName;
                 enemie.health = enemieData[i].health;
+                enemie.damage = enemieData[i].damage;
                 newEnemieGO.SetActive(false);
                 if (createParent)
                 {

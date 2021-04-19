@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class EnemieComponent : MonoBehaviour
+public class EnemieComponent : DamageDealer
 {
     public Vector2 velocity { get; set; }
     public float speed { get; set; }
@@ -17,15 +17,9 @@ public class EnemieComponent : MonoBehaviour
     {
         if (canContact)
         {
-            var bulletComponent = collision.GetComponent<BulletComponent>();
-            if (bulletComponent)
-            {
-                OnCollision.Invoke(this, bulletComponent.damage);
-            }
-            else
-            {
-                OnCollision.Invoke(this, 1);
-            }
+            var damageDealer = collision.GetComponent<DamageDealer>();
+
+            OnCollision.Invoke(this, damageDealer.damage);
         }
     }
 
