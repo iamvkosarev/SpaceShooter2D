@@ -14,59 +14,61 @@ public enum EEnemieName
 [System.Serializable]
 public class EnemieLoadingData
 {
-    public EEnemieName enemieName;
+    public EEnemieName enemiesName;
     public GameObject prefab;
+    public int health;
     public int maxNumOnScreen;
 }
 public class EnemiesSpawnSystem : GameSystem
 {
-    public EnemieLoadingData[] enemieSettings;
-    public bool createEnemieParent;
+    public EnemieLoadingData[] enemieData;
+    public bool createParent;
     public List<EnemieComponent> enemies;
-    private Dictionary<EEnemieName, Queue<GameObject>> enemiesDictionary;
+    private Dictionary<EEnemieName, Queue<GameObject>> enemiesPool;
     private Transform enemieParent;
 
 
 
     private void Start()
     {
-        if (createEnemieParent)
+        if (createParent)
         {
             var enemieParentGO = new GameObject("Enemies");
             enemieParent = enemieParentGO.transform;
         }
-        var numOfEnemieSettings = enemieSettings.Length;
+        var numOfEnemieSettings = enemieData.Length;
         enemies = new List<EnemieComponent>();
-        enemiesDictionary = new Dictionary<EEnemieName, Queue<GameObject>>();
+        enemiesPool = new Dictionary<EEnemieName, Queue<GameObject>>();
         for (int i = 0; i < numOfEnemieSettings; i++)
         {
             var enemiesQueues = new Queue<GameObject>();
-            for (int j = 0; j < enemieSettings[i].maxNumOnScreen; j++)
+            for (int j = 0; j < enemieData[i].maxNumOnScreen; j++)
             {
-                GameObject newEnemieGO = Instantiate(enemieSettings[i].prefab) as GameObject;
+                GameObject newEnemieGO = Instantiate(enemieData[i].prefab) as GameObject;
                 EnemieComponent enemie = newEnemieGO.GetComponent<EnemieComponent>();
                 enemies.Add(enemie);
                 enemiesQueues.Enqueue(newEnemieGO);
-                enemie.enemieName = enemieSettings[i].enemieName;
+                enemie.enemieName = enemieData[i].enemiesName;
+                enemie.health = enemieData[i].health;
                 newEnemieGO.SetActive(false);
-                if (createEnemieParent)
+                if (createParent)
                 {
                     newEnemieGO.transform.parent = enemieParent;
                 }
             }
-            enemiesDictionary.Add(enemieSettings[i].enemieName, enemiesQueues);
+            enemiesPool.Add(enemieData[i].enemiesName, enemiesQueues);
         }
     }
 
     public GameObject GetEnemie(EEnemieName enemieName)
     {
-        if (enemiesDictionary.ContainsKey(enemieName))
+        if (enemiesPool.ContainsKey(enemieName))
         {
-            if (enemiesDictionary[enemieName].Count == 0)
+            if (enemiesPool[enemieName].Count == 0)
             {
                 return null;
             }
-            var eneimeToReturn = enemiesDictionary[enemieName].Dequeue();
+            var eneimeToReturn = enemiesPool[enemieName].Dequeue();
             eneimeToReturn.SetActive(true);
             return eneimeToReturn;
         }
@@ -77,9 +79,9 @@ public class EnemiesSpawnSystem : GameSystem
     public void SetEneimeBack(EEnemieName enemieName, GameObject enemie)
     {
         enemie.SetActive(false);
-        if (enemiesDictionary.ContainsKey(enemieName))
+        if (enemiesPool.ContainsKey(enemieName))
         {
-            enemiesDictionary[enemieName].Enqueue(enemie);
+            enemiesPool[enemieName].Enqueue(enemie);
         }
         else
         {

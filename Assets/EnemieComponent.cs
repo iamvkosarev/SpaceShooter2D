@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class EnemieComponent : MonoBehaviour
 {
     public Vector2 velocity { get; set; }
@@ -11,12 +11,21 @@ public class EnemieComponent : MonoBehaviour
     public int health { set; get; }
     public bool canContact { set; get; } = true;
 
+    public event Action<EnemieComponent, int> OnCollision;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Contact!!!");
         if (canContact)
         {
-            wasContact = true;
+            var bulletComponent = collision.GetComponent<BulletComponent>();
+            if (bulletComponent)
+            {
+                OnCollision.Invoke(this, bulletComponent.damage);
+            }
+            else
+            {
+                OnCollision.Invoke(this, 1);
+            }
         }
     }
 
